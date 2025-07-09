@@ -171,13 +171,16 @@ if st.button("Analiz Et"):
 
                 # Görsel gösterim
                 import matplotlib.pyplot as plt
+                import mplcyberpunk
 
+                plt.style.use("cyberpunk")
+                plt.rcParams['font.family'] = 'Segoe UI'
                 fig, ax = plt.subplots(figsize=(8, 4))
                 categories = ['Gerçek', 'Sahte']
                 probabilities = [result['real_probability'], result['fake_probability']]
                 colors = ['green', 'red']
 
-                bars = ax.bar(categories, probabilities, color=colors, alpha=0.7)
+                bars = ax.bar(categories, probabilities, alpha=0.7)
                 ax.set_ylabel('Olasılık')
                 ax.set_title('Yorum Analiz Sonucu')
                 ax.set_ylim(0, 1)

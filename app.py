@@ -13,6 +13,7 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 import textstat
+import os
 
 st.markdown("""# Sahte Yorum Tespidi
 
@@ -22,16 +23,21 @@ Ne kullandım:
 - Data: `Kaggle` and `Web Scraping`
 """)
 
+nltk_data_path = os.path.join(os.getcwd(), "nltk_data")
+if not os.path.exists(nltk_data_path):
+    os.mkdir(nltk_data_path)
+
+nltk.data.path.append(nltk_data_path)
 # NLTK veri setlerini indir (sadece ilk çalıştırmada gerekli)
 try:
     nltk.data.find('tokenizers/punkt')
     nltk.data.find('corpora/stopwords')
     nltk.data.find('corpora/wordnet')
 except LookupError:
-    nltk.download('punkt', quiet=True)
-    nltk.download('stopwords', quiet=True)
-    nltk.download('wordnet', quiet=True)
-    nltk.download('omw-1.4', quiet=True)
+    nltk.download('punkt', download_dir=nltk_data_path, quiet=True)
+    nltk.download('stopwords', download_dir=nltk_data_path, quiet=True)
+    nltk.download('wordnet', download_dir=nltk_data_path, quiet=True)
+    nltk.download('omw-1.4', download_dir=nltk_data_path, quiet=True)
 
 
 # Metin işleme fonksiyonları
@@ -140,6 +146,8 @@ def predict_fake_review(text, model, tfidf, scaler):
 
 # Streamlit arayüzü
 review = st.text_area("Yorumunuzu girin:", key="comment", height=100)
+if st.checkbox("MongoDB'ye kaydet (Herkes görebilir)"):
+    is_user_supporting = True
 
 if st.button("Analiz Et"):
     if review.strip():
@@ -192,11 +200,35 @@ if st.button("Analiz Et"):
                             f'{prob:.2%}', ha='center', va='bottom')
 
                 st.pyplot(fig)
+                if is_user_supporting == True:
+                    import pandas as pd
+                    from pymongo import MongoClient
+
+                    # 1️⃣ DataFrame oluştur (örnek)
+                    data = {
+                        'text': [review],
+                        'is_fake': [result['prediction']],
+                        'accuracy': [confidence],
+                        'real_probability': [result['real_probability']],
+                        'fake_probability': [result['fake_probability']]
+                    }
+                    df = pd.DataFrame(data)
+
+                    # 2️⃣ MongoDB bağlantısı kur
+                    client = MongoClient("mongodb+srv://AlpikTech:ijQkFS1b6drq8eHY@istdsproje5.eb23zqp.mongodb.net/")  # MongoDB URI'ını buraya yaz
+                    db = client['reviews']  # Veritabanı adı
+                    collection = db['datas']  # Koleksiyon adı
+
+                    # 3️⃣ DataFrame'i dictionary listesine çevir
+                    records = df.to_dict(orient='records')
+
+                    # 4️⃣ MongoDB'ye yükle
+                    mongo_result = collection.insert_many(records)
+
 
     else:
         st.warning("Lütfen bir yorum girin.")
 
-st.checkbox("MongoDB'ye kaydet (Herkes görebilir)")
 
 # Bilgi kutusu
 with st.expander("Nasıl çalışır?"):

@@ -40,7 +40,6 @@ except LookupError:
     nltk.download('stopwords', quiet=True)
     nltk.download('wordnet', quiet=True)
     nltk.download('omw-1.4', quiet=True)
->>>>>>> eb0fcde0407bc9ac468d78df0753f6a05dc00a2d
 
 
 # Metin işleme fonksiyonları

@@ -36,9 +36,6 @@ try:
     nltk.data.find('corpora/stopwords')
     nltk.data.find('corpora/wordnet')
 except LookupError:
-<<<<<<< HEAD
-
-=======
     nltk.download('punkt_tab', quiet=True)
     nltk.download('stopwords', quiet=True)
     nltk.download('wordnet', quiet=True)

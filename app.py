@@ -22,6 +22,8 @@ Ne kullandım:
 - Model: `LogisticRegression`
 - Data: `Kaggle` and `Web Scraping`
 """)
+st.warning("Sadece İngilizce Yorumlar Çalışır!")
+is_user_supporting = False
 
 nltk_data_path = os.path.join(os.getcwd(), "nltk_data")
 if not os.path.exists(nltk_data_path):

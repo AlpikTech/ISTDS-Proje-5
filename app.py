@@ -36,10 +36,14 @@ try:
     nltk.data.find('corpora/stopwords')
     nltk.data.find('corpora/wordnet')
 except LookupError:
-    nltk.download('punkt', download_dir=nltk_data_path, quiet=True)
-    nltk.download('stopwords', download_dir=nltk_data_path, quiet=True)
-    nltk.download('wordnet', download_dir=nltk_data_path, quiet=True)
-    nltk.download('omw-1.4', download_dir=nltk_data_path, quiet=True)
+<<<<<<< HEAD
+
+=======
+    nltk.download('punkt_tab', quiet=True)
+    nltk.download('stopwords', quiet=True)
+    nltk.download('wordnet', quiet=True)
+    nltk.download('omw-1.4', quiet=True)
+>>>>>>> eb0fcde0407bc9ac468d78df0753f6a05dc00a2d
 
 
 # Metin işleme fonksiyonları

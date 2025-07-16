@@ -168,12 +168,14 @@ if st.button("Analiz Et"):
                 col1, col2 = st.columns(2)
 
                 with col1:
-                    st.metric("Tahmin", result['prediction'])
+                    if result['fake_probability'] > 70:
+                        st.metric("Tahmin", "Sahte")
+                    else:
+                        st.metric("Tahmin", "Gerçek")
+
 
                 with col2:
                     confidence = max(result['fake_probability'], result['real_probability'])
-                    st.metric("Güven Oranı", f"{confidence:.2%}")
-
                 # Detaylı probabilities
                 st.subheader("Detaylı Sonuçlar:")
                 st.write(f"🔴 Sahte olma olasılığı: **{result['fake_probability']:.2%}**")
@@ -188,7 +190,6 @@ if st.button("Analiz Et"):
                 fig, ax = plt.subplots(figsize=(8, 4))
                 categories = ['Gerçek', 'Sahte']
                 probabilities = [result['real_probability'], result['fake_probability']]
-                colors = ['green', 'red']
 
                 bars = ax.bar(categories, probabilities, alpha=0.7)
                 ax.set_ylabel('Olasılık')

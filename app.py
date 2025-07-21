@@ -14,20 +14,6 @@ from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 import textstat
 import os
-import speech_recognition as sr
-
-
-def sesli_girdi():
-    r = sr.Recognizer()
-    with sr.Microphone() as source:
-        audio = r.listen(source)
-    try:
-        speech_text = r.recognize_google(audio, language="tr-TR")
-        sesli_girdi()
-        review = speech_text
-    except:
-        st.error("Anlaşılamadı, lütfen tekrar dene!")
-
 
 st.markdown("""# Sahte Yorum Tespidi
 
@@ -161,6 +147,9 @@ def predict_fake_review(text, model, tfidf, scaler):
 
 
 # Streamlit arayüzü
+review = st.text_area("Yorumunuzu girin:", key="comment", height=100)
+if st.checkbox("MongoDB'ye kaydet (Herkes görebilir)"):
+    is_user_supporting = True
 
 if st.button("Analiz Et"):
     if review.strip():
@@ -221,7 +210,6 @@ if st.button("Analiz Et"):
                     # 1️⃣ DataFrame oluştur (örnek)
                     data = {
                         'text': [review],
-                        'is_fake': [result['prediction']],
                         'real_probability': [result['real_probability']],
                         'fake_probability': [result['fake_probability']]
                     }

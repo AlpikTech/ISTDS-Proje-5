@@ -11,3 +11,6 @@ This application determines whether a review is **fake or real** by following th
 - **Feature Extraction**: Features like TF-IDF, text length, and punctuation marks are extracted  
 - **Machine Learning**: A trained model is used to make predictions
 - **Result**: The app shows whether the review is fake/real along with a confidence score
+
+# Copyright (C) 2025 Mehmet Alparslan Tuncel
+## GNU GPLv3 license — see LICENSE or https://www.gnu.org/licenses/gpl-3.0.html

@@ -15,6 +15,8 @@ from nltk.stem import WordNetLemmatizer
 import textstat
 import os
 
+from textstat.backend.metrics import flesch_reading_ease, flesch_kincaid_grade
+
 st.markdown("""# Sahte Yorum Tespidi
 
 Ne kullandım:
@@ -113,37 +115,59 @@ def load_model_and_components():
         return None, None, None
 
 
-def predict_fake_review(text, model, tfidf, scaler):
-    """Sahte yorum tahminini yap"""
-    try:
-        # Metin işleme
-        processed_text, features = extract_text_features(text)
 
-        # TF-IDF vektörü
-        tfidf_vector = tfidf.transform([processed_text])
+def predict_fake_review(text, model, tfidf, scaler, top_n=5):
+    cleaned = clean_text(text)
+    processed = preprocess_text(cleaned)
 
-        # Sayısal özellikleri hazırla
-        numerical_features = ['text_length', 'word_count', 'avg_word_length',
-                              'exclamation_count', 'question_count', 'capital_count',
-                              'flesch_score', 'flesch_kincaid']
+    numerical_features = ['text_length', 'word_count', 'avg_word_length',
+                          'exclamation_count', 'question_count', 'capital_count',
+                          'flesch_score', 'flesch_kincaid']
+    features = {
+        'text_length': len(processed),
+        'word_count': len(processed.split()),
+        'avg_word_length': np.mean([len(word) for word in processed.split()]) if processed else 0,
+        'exclamation_count': text.count('!'),
+        'question_count': text.count('?'),
+        'capital_count': sum(1 for c in text if c.isupper()),
+        'flesch_score': flesch_reading_ease(text, lang='en') if text else 0,
+        'flesch_kincaid': flesch_kincaid_grade(text, 'en') if text else 0
+    }
 
-        numerical_vector = scaler.transform([[features[col] for col in numerical_features]])
+    tfidf_vector = tfidf.transform([processed])
+    numerical_vector = scaler.transform([[features[col] for col in numerical_features]])
+    X_new = sp.hstack([tfidf_vector, numerical_vector])
 
-        # Özellikleri birleştir
-        X_new = sp.hstack([tfidf_vector, numerical_vector])
+    prediction = model.predict(X_new)[0]
+    probability = model.predict_proba(X_new)[0]
 
-        # Tahmin yap
-        prediction = model.predict(X_new)[0]
-        probability = model.predict_proba(X_new)[0]
+    # TF-IDF feature isimleri
+    feature_names = tfidf.get_feature_names_out()
+    # Yorumdaki kelimeler
+    tokens = processed.split()
 
-        return {
-            'prediction': 'Sahte' if prediction == 1 else 'Gerçek',
-            'fake_probability': probability[1],
-            'real_probability': probability[0]
-        }
-    except Exception as e:
-        st.error(f"Tahmin sırasında hata: {str(e)}")
-        return None
+    # Model katsayıları (TF-IDF kısmı)
+    coefs = model.coef_[0][:len(feature_names)]
+
+    # Tokenların katsayıları
+    token_coefs = {}
+    for token in tokens:
+        if token in feature_names:
+            idx = np.where(feature_names == token)[0][0]
+            token_coefs[token] = coefs[idx]
+
+    # En pozitif ve en negatif etkili kelimeler
+    top_positive = sorted([(k, v) for k, v in token_coefs.items() if v > 0], key=lambda x: x[1], reverse=True)[:top_n]
+    top_negative = sorted([(k, v) for k, v in token_coefs.items() if v < 0], key=lambda x: x[1])[:top_n]
+
+    return {
+        'prediction': 'Sahte' if prediction == 1 else 'Gerçek',
+        'fake_probability': probability[1],
+        'real_probability': probability[0],
+        'top_positive': top_positive,
+        'top_negative': top_negative
+    }
+
 
 
 # Streamlit arayüzü
@@ -180,6 +204,16 @@ if st.button("Analiz Et"):
                 st.subheader("Detaylı Sonuçlar:")
                 st.write(f"🔴 Sahte olma olasılığı: **{result['fake_probability']:.2%}**")
                 st.write(f"🟢 Gerçek olma olasılığı: **{result['real_probability']:.2%}**")
+
+                st.subheader("Karar Verirken Etkili Kelimeler 🔍")
+                if result['top_positive']:
+                    with st.expander("Sahte Yorum İhtimalini Artıran Kelimeler:"):
+                        for word, coef in result['top_positive']:
+                            st.markdown(f"- `{word.capitalize()}` (etki: {coef:.3f})")
+                if result['top_negative']:
+                    with st.expander("Gerçek Yorum İhtimalini Artıran Kelimeler:"):
+                        for word, coef in result['top_negative']:
+                            st.markdown(f"- `{word.capitalize()}` (etki: {coef:.3f})")
 
                 # Görsel gösterim
                 import matplotlib.pyplot as plt

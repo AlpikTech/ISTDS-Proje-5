@@ -17,7 +17,7 @@ import os
 
 from textstat.backend.metrics import flesch_reading_ease, flesch_kincaid_grade
 
-st.markdown("""# Sahte Yorum Tespidi
+st.markdown("""# Sahte Yorum Tespiti
 
 Ne kullandım:
 - NLP: NLTK, TF-IDF, Metin Analizi

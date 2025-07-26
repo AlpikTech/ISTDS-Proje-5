@@ -8,7 +8,7 @@ pages = [
     st.Page("app_pages/feedback.py", title="Geri Bildirim", icon="⭐"),
     st.Page("app_pages/whoami.py", title="Ben Kimim?", icon="👤"),
     st.Page("app_pages/SSS.py", title="Sıkça Sorulan Sorular", icon="❓"),
-    st.Page("app_pages/HowItWorks.py", title="Nasıl Çalışır?", icon="⚙️"),
+    st.Page("app_pages/howItWorks.py", title="Nasıl Çalışır?", icon="⚙️"),
 
 ]
 

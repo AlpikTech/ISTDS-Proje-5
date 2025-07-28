@@ -1,2 +1,2 @@
 echo off
-streamlit run app.py
+streamlit run main_page.py

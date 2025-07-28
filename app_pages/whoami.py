@@ -2,14 +2,18 @@ import streamlit as st
 from datetime import datetime
 import json
 from streamlit_lottie import st_lottie
+import datetime
+
+year = datetime.datetime.now().year
+age = year - 2013
 
 with open("assets/Coding_animation.json", "r") as dosya:
     animasyon = json.load(dosya)
 
 
 
-st.markdown("""# Ben Kimim?
-Merhaba! Ben Alparslan. yaşındayım. Şu an ISTDS kursunu alıyorum. Hatta bu proje ISTDS bitirme projem. Geri bildirim kısmına eksik bulduğunuz şeyleri yazabilirsiniz.
+st.markdown(f"""# Ben Kimim?
+Merhaba! Ben Alparslan. {age} yaşındayım. Şu an ISTDS kursunu alıyorum. Hatta bu proje ISTDS bitirme projem. Geri bildirim kısmına eksik bulduğunuz şeyleri yazabilirsiniz.
 # İlgim Nasıl Başladı?
 Teknolojiye ve yazılıma olan tutkum küçük yaşlarda başladı. İlk başta sıkça oynadığım oyun Minecraft'a mod yazmakla başladı. Sonra Inokids adındaki kursla kendimi geliştirdim. hatta 2. leveldan başlayım 15. levela kadar geldim. Şu an ise ISTDS kursunu tamamlamak üzereyim.
 ## Fun Fact:

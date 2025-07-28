@@ -1,5 +1,6 @@
 import streamlit as st
 # st.markdown("""# Sahte Yorum Tespiti""")
+# st.set_page_config(layout="wide")
 
 # Page Definitions for the Navigation Demo App
 pages = [

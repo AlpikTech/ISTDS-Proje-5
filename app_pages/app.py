@@ -36,7 +36,7 @@ st.markdown("""# Sahte Yorum Tespiti
 Ne kullandım:
 - NLP: NLTK, TF-IDF, Metin Analizi
 - Model: `LogisticRegression`
-- Data: `Kaggle` and `Web Scraping`
+- Data: `Kaggle`
 """)
 st.warning("Sadece İngilizce Yorumlar Çalışır!")
 is_user_supporting = False

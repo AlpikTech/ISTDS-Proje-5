@@ -1,4 +1,6 @@
 import streamlit as st
+import streamlit.components.v1 as components
+
 st.markdown("""# Sahte Yorum Tespiti""")
 
 # Page Definitions for the Navigation Demo App
@@ -14,7 +16,8 @@ st.page_link("app_pages/app.py", label="Hemen Dene", icon="❕")
 
 with st.expander("Doğruluk oranı"):
     st.markdown("""f1 Score: %96""")
-    # st.image("assets/f1_score.png")
+    st.image("assets/confusion_matrix.jpg")
+
 st.markdown("""
 #### Açık Kaynak Harika Bir Proje
 # Tamamen Python İle Yazıldı

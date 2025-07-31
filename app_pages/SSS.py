@@ -35,7 +35,7 @@ with st.expander("📝 Model hangi verilerle eğitildi?"):
 
 with st.expander("🔒 Verilerim kaydediliyor mu?"):
     st.write("""
-    Hayır. Girdiğiniz yorumlar "MongoDB ye Kaydet"e tıklanmadığı sürece **hiçbir şekilde kaydedilmez** ve tamamen gizli tutulur.
+    Hayır. Girdiğiniz yorumlar "Herkese Açık Yayınla"e tıklanmadığı sürece **hiçbir şekilde kaydedilmez** ve tamamen gizli tutulur.
     Uygulama sadece anlık olarak tahmin işlemi yapar.
     """)
 

@@ -186,7 +186,7 @@ def predict_fake_review(text, model, tfidf, scaler, top_n=5):
 
 # Streamlit arayüzü
 review = st.text_area("Yorumunuzu girin:", key="comment", height=100)
-if st.checkbox("MongoDB'ye kaydet (Herkes görebilir)"):
+if st.checkbox("Herkese Açık Yayınla"):
     is_user_supporting = True
 
 if st.button("Analiz Et"):

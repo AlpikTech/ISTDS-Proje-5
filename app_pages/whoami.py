@@ -17,7 +17,7 @@ Merhaba! Ben Alparslan. {age} yaşındayım. Şu an ISTDS kursunu alıyorum. Hat
 # İlgim Nasıl Başladı?
 Teknolojiye ve yazılıma olan tutkum küçük yaşlarda başladı. İlk başta sıkça oynadığım oyun Minecraft'a mod yazmakla başladı. Sonra Inokids adındaki kursla kendimi geliştirdim. hatta 2. leveldan başlayım 15. levela kadar geldim. Şu an ise ISTDS kursunu tamamlamak üzereyim.
 ## Fun Fact:
-Minecrafta Mod yazmaya 8 yaşımda başladım. Inokids kursuna aldığımda 9 yaşımdaydım. 11 yaşımda ise ISTDS ye başladım.""")
+Minecrafta Mod yazmaya 8 yaşımda başladım. Inokids kursuna aldığımda 9 yaşımdaydım. 11 yaşımda ise ISTDS ye başladım. Bu projeyi ise 12 yaşımda yaptım.""")
 
 left, right = st.columns(2)
 with left:

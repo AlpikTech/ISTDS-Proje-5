@@ -23,7 +23,7 @@ def how_it_works():
 
     ### 3 Makine Öğrenmesi ile Tahmin
     - 🤖 **Logistic Regression** modeli kullanılır
-    - 📊 Model, **Kaggle verisi** ve **web scraping** ile eğitilmiştir
+    - 📊 Model, **Kaggle verisi** ile eğitilmiştir
     - ✅ Tahmin doğruluğu: **%96**
 
     ### 4 Sonuçların Gösterimi
